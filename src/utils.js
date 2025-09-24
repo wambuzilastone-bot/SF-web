@@ -1,4 +1,3 @@
-// Map countries and their top leagues to API-Football league IDs
 export const leaguesByCountry = {
   Austria: [{ name: "Austrian Bundesliga", id: 16 }],
   Belgium: [{ name: "Belgian Pro League", id: 42 }],
