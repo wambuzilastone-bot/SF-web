@@ -9,7 +9,7 @@ export default function Home() {
   const [fixtures, setFixtures] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pick your league + season
+  // League & season
   const leagueId = 39; // Premier League
   const season = 2024;
 
@@ -19,16 +19,16 @@ export default function Home() {
         const today = new Date();
         const from = today.toISOString().split("T")[0]; // YYYY-MM-DD
         const toDate = new Date();
-        toDate.setDate(today.getDate() + 7); // Next 7 days
+        toDate.setDate(today.getDate() + 7);
         const to = toDate.toISOString().split("T")[0];
 
-        // ✅ Get fixtures
+        // ✅ Get fixtures for next 7 days
         const fixturesData = await getFixtures(leagueId, season, from, to);
 
-        // Optionally fetch standings
+        // ✅ Get standings (useful for positions later if needed)
         const standings = await getLeagueStandings(leagueId, season);
 
-        // Enrich each fixture with stats
+        // Enrich fixtures with stats
         const enrichedFixtures = await Promise.all(
           fixturesData.map(async (fix) => {
             const homeStats = await getTeamStats(fix.teams.home.id, season);
@@ -61,7 +61,7 @@ export default function Home() {
     // Line 1: Matchup
     const line1 = `${home.team.name} vs ${away.team.name}`;
 
-    // Line 2: WDL (total record)
+    // Line 2: Overall WDL
     const line2 = `${home.fixtures.wins.total}${home.fixtures.draws.total}${home.fixtures.loses.total} - ${away.fixtures.wins.total}${away.fixtures.draws.total}${away.fixtures.loses.total}`;
 
     // Line 3: Goal ratio (GF/GA × 10)
